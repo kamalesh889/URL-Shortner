@@ -28,7 +28,7 @@ func base58encoder(bytes []byte) string {
 }
 
 // It generates the short url from original url
-func GenerateshorlUrl(originalurl string) {
+func GenerateshorlUrl(originalurl string) string {
 	byt := hash256(originalurl)
 
 	// Here we have to convert into a number as genrated bytes are in array format , so unable to encode it
@@ -36,5 +36,6 @@ func GenerateshorlUrl(originalurl string) {
 	shorturl := base58encoder([]byte(fmt.Sprintf("%d", generatenumber)))
 
 	fmt.Println("Generated short url is ", shorturl)
+	return shorturl
 
 }
