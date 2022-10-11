@@ -22,9 +22,8 @@ func TestSetGetUrl(t *testing.T) {
 
 	SaveUrl(generatedurl, originalurl)
 
-	geturl := GetUrl(generatedurl)
+	geturl, _ := GetUrl(generatedurl)
 
 	assert.Equal(t, originalurl, geturl)
 
 }
-		

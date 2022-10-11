@@ -43,7 +43,13 @@ func createShorturl(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	shorturl := shortner.GenerateshorlUrl(req.Originalurl)
+	shorturl, err := shortner.GenerateshorlUrl(req.Originalurl)
+	if err != nil {
+		fmt.Println("Error in generating shortuel ", err)
+		w.WriteHeader(http.StatusInternalServerError)
+		return
+	}
+
 	store.SaveUrl(shorturl, req.Originalurl)
 
 	resp := response{
@@ -66,7 +72,12 @@ func redirecturl(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	longurl := store.GetUrl(url)
+	longurl, err := store.GetUrl(url)
+	if err != nil {
+		fmt.Println("Error in redirecting to original url", err)
+		w.WriteHeader(http.StatusInternalServerError)
+		return
+	}
 
 	http.Redirect(w, r, longurl, http.StatusFound)
 
