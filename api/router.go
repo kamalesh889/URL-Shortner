@@ -45,12 +45,17 @@ func createShorturl(w http.ResponseWriter, r *http.Request) {
 
 	shorturl, err := shortner.GenerateshorlUrl(req.Originalurl)
 	if err != nil {
-		fmt.Println("Error in generating shortuel ", err)
+		fmt.Println("Error in generating shorturl ", err)
 		w.WriteHeader(http.StatusInternalServerError)
 		return
 	}
 
-	store.SaveUrl(shorturl, req.Originalurl)
+	err = store.SaveUrl(shorturl, req.Originalurl)
+	if err != nil {
+		fmt.Println("Error in saving original url ", err)
+		w.WriteHeader(http.StatusInternalServerError)
+		return
+	}
 
 	resp := response{
 		Message: "Short url created successfully",

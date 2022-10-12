@@ -39,11 +39,13 @@ func IntializeConnection() *StorageService {
 }
 
 // It will save the original and generated Url
-func SaveUrl(generatedUrl, originalUrl string) {
+func SaveUrl(generatedUrl, originalUrl string) error {
 	err := Storeservice.Client.Set(generatedUrl, originalUrl, Cacheduration).Err()
 	if err != nil {
 		fmt.Println("Error in saving Url ", err)
+		return err
 	}
+	return nil
 }
 
 // It will retrive the original url from generated short url
